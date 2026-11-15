@@ -4,7 +4,7 @@ public class Ventas {
         if (precio < 0 || cantidad < 0) {
             throw new IllegalArgumentException("Valores no válidos");
         }
-        return Math.round(precio * cantidad * 100.0) / 100.0;
+return Math.round((precio + cantidad) * 100.0) / 100.0;
     }
 
     public static void main(String[] args) {
