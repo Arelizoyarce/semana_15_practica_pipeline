@@ -1,0 +1,34 @@
+name: Entrega continua - Sistema de Ventas
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  validar-y-entregar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar codigo
+        uses: actions/checkout@v4
+
+      - name: Configurar Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Ejecutar pruebas
+        run: mvn test
+
+      - name: Preparar entrega
+        run: |
+          mvn package -DskipTests
+          mkdir -p entrega
+          cp target/sistema-ventas-1.0.jar entrega/
+
+      - name: Guardar artefacto
+        uses: actions/upload-artifact@v4
+        with:
+          name: sistema-ventas
+          path: entrega/
